@@ -5,7 +5,7 @@
 import pygame as pg
 import sys
 import config as c
-from ship import Ship
+from board import Board
 pg.init()
 
 class Main:
@@ -16,9 +16,6 @@ class Main:
 
     # Clock
     self.clock = pg.time.Clock()
-
-    # Ship
-    self.ship = Ship([c.WIDTH / 2, c.HEIGHT / 2], c.RED)
 
 
   def run(self):
@@ -32,12 +29,8 @@ class Main:
       # Call events / update running
       self.main_events()
 
-      self.ship.update(dt)
-
       # Fills window
       self.screen.fill(c.WHITE)
-
-      self.ship.draw(self.screen)
 
       # Updates the Display
       pg.display.flip()
