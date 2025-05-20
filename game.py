@@ -15,7 +15,7 @@ class Game():
 
     self.balls = pygame.sprite.Group()
     self.powerups = pygame.sprite.Group()
-    self.board = Board(20, config.BLACK)
+    self.board = Board([20, 300])
 
 
   def run(self, running):
@@ -27,11 +27,11 @@ class Game():
 
       will_close = self.events()
 
-      # self.update(dt)
+      self.update(dt)
 
       self.draw()
 
-      dt = self.clock.tick(config.FPS)
+      dt = self.clock.tick(config.FPS) / 1000
 
     return will_close
 

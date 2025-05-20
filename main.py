@@ -6,6 +6,7 @@ import sys
 import pygame
 import config
 from game import Game
+from board import Board
 
 class Main:
   """Main() is just a glorified menu that opens when you run the game"""
@@ -20,7 +21,6 @@ class Main:
     # Clock
     self.clock = pygame.time.Clock()
 
-
   def run(self):
     # The bool for the main loop
     self.running = True
@@ -34,6 +34,7 @@ class Main:
 
       # Call events / update running
       self.main_events()
+
 
       # Fills window
       self.screen.fill(config.BLACK)

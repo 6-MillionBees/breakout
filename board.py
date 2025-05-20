@@ -12,7 +12,7 @@ class Board:
     self.pos = pos
     self.color = color
     self.destination = pygame.mouse.get_pos()
-    self.speed = [75, 75]
+    self.speed = [250, 250]
 
   def update(self, dt):
     """Runs the Board.move() and the Board.check_pos() methods"""
@@ -24,9 +24,16 @@ class Board:
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_RIGHT]:
-      self.pos += self.speed[0] * dt
+      self.pos[0] += self.speed[0] * dt
     if keys[pygame.K_LEFT]:
-      self.pos -= self.speed[1] * dt
+      self.pos[0] -= self.speed[1] * dt
+
+  def check_pos(self):
+    if self.pos[0] < 0:
+      self.pos[0] = 0
+    elif self.pos[0] + 10 > config.WIDTH - 1:
+      self.pos[0] = config.WIDTH - 10
+
 
   def draw(self, surface):
     pygame.draw.rect(surface, self.color, pygame.Rect(self.pos, (10, 10)))
