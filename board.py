@@ -12,12 +12,14 @@ class Board:
     self.pos = pos
     self.color = color
     self.destination = pygame.mouse.get_pos()
-    self.speed = [250, 250]
+    self.speed = [500, 500]
+    self.rect = pygame.Rect(self.pos, (100, 10))
 
   def update(self, dt):
     """Runs the Board.move() and the Board.check_pos() methods"""
     self.move(dt)
     self.check_pos()
+    self.rect = pygame.Rect(self.pos, (100, 10))
 
   def move(self, dt):
     """Checks input and moves depending on which keys are pressed"""
@@ -36,4 +38,4 @@ class Board:
 
 
   def draw(self, surface):
-    pygame.draw.rect(surface, self.color, pygame.Rect(self.pos, (10, 10)))
+    pygame.draw.rect(surface, self.color, self.rect)

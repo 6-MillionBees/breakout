@@ -4,7 +4,10 @@
 
 import pygame
 import config
+import blocks
+from random import randint
 from board import Board
+from balls import Ball
 
 
 class Game():
@@ -15,7 +18,9 @@ class Game():
 
     self.balls = pygame.sprite.Group()
     self.powerups = pygame.sprite.Group()
-    self.board = Board([20, 300])
+    self.board = Board([20, 400])
+    self.blocks = []
+    self.make_blocks()
 
 
   def run(self, running):
@@ -41,6 +46,16 @@ class Game():
 
     self.balls.update(dt)
 
+    for ball in self.balls.sprites():
+      ball: Ball
+      if ball.colliderect(self.board.rect):
+        ball.direction = pygame.math.Vector2(
+          config.sub_tup(ball.pos, self.board.rect.center)
+          ).normalize()
+
+    if not self.blocks:
+      self.make_blocks()
+
 
   def draw(self):
     """Draws all of the game objects"""
@@ -48,8 +63,10 @@ class Game():
 
     self.board.draw(self.screen)
 
-    pygame.display.flip()
+    for ball in self.balls.sprites():
+      ball.draw(self.screen)
 
+    pygame.display.flip()
 
 
   def events(self) -> bool:
@@ -60,3 +77,15 @@ class Game():
         return False
 
     return True
+
+
+
+  def make_blocks(self):
+    for x in range(8):
+      for y in range(3):
+        block_pos = (x * 55 + 50, y * 30 + 50)
+        choice = randint(1, 10)
+        if choice < 5:
+          blocks.Block(self.blocks, block_pos)
+        elif choice == 6:
+          blocks.HardBlock(self.blocks, block_pos)
