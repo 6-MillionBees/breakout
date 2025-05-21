@@ -33,8 +33,8 @@ class Board:
   def check_pos(self):
     if self.pos[0] < 0:
       self.pos[0] = 0
-    elif self.pos[0] + 10 > config.WIDTH - 1:
-      self.pos[0] = config.WIDTH - 10
+    elif self.pos[0] + self.rect.width > config.WIDTH - 1:
+      self.pos[0] = config.WIDTH - self.rect.width
 
 
   def draw(self, surface):

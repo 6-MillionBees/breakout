@@ -23,4 +23,9 @@ class HardBlock(Block):
   def __init__(self, groups, pos):
     super().__init__(groups, pos)
     self.health = 2
-    self.sprite = pygame.image.load()
+    self.sprite = pygame.image.load("sprites/hardblock.png")
+    pygame.transform.scale(self.sprite, (50, 25))
+    self.rect = self.sprite.get_rect(topleft=pos)
+
+  def draw(self, surface: pygame.Surface):
+    surface.blit(self.sprite, self.rect)

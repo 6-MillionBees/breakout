@@ -6,7 +6,6 @@ import sys
 import pygame
 import config
 from game import Game
-from board import Board
 
 class Main:
   """Main() is just a glorified menu that opens when you run the game"""

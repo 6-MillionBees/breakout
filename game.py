@@ -18,13 +18,16 @@ class Game():
 
     self.balls = pygame.sprite.Group()
     self.powerups = pygame.sprite.Group()
+    self.blocks = pygame.sprite.Group()
     self.board = Board([20, 400])
-    self.blocks = []
     self.make_blocks()
 
 
   def run(self, running):
     self.running = running
+    self.points = 0
+
+    Ball(self.balls, (250, 250), pygame.math.Vector2(0, -1), config.RED)
 
     dt = 0
 
@@ -48,10 +51,35 @@ class Game():
 
     for ball in self.balls.sprites():
       ball: Ball
-      if ball.colliderect(self.board.rect):
+      collision = ball.colliderect(self.board.rect)
+      if collision:
         ball.direction = pygame.math.Vector2(
           config.sub_tup(ball.pos, self.board.rect.center)
           ).normalize()
+        if ball.direction.y > 0:
+          ball.direction.y *= -1
+
+
+    for ball in self.balls.sprites():
+      ball: Ball
+      for block in self.blocks.sprites():
+        block: blocks.Block
+        collision = ball.colliderect(block.rect)
+        if collision:
+          if collision == 1:
+            ball.direction.reflect_ip(pygame.math.Vector2(1, 0))
+          elif collision == 2:
+            ball.direction.reflect_ip(pygame.math.Vector2(0, 1))
+          elif collision == 3:
+            ball.direction = pygame.math.Vector2(
+              config.sub_tup(
+                ball.pos,
+                block.rect.center
+                )
+              ).normalize()
+
+          block.kill()
+          self.points += 1
 
     if not self.blocks:
       self.make_blocks()
@@ -65,6 +93,9 @@ class Game():
 
     for ball in self.balls.sprites():
       ball.draw(self.screen)
+
+    for block in self.blocks.sprites():
+      block.draw(self.screen)
 
     pygame.display.flip()
 
@@ -84,8 +115,4 @@ class Game():
     for x in range(8):
       for y in range(3):
         block_pos = (x * 55 + 50, y * 30 + 50)
-        choice = randint(1, 10)
-        if choice < 5:
-          blocks.Block(self.blocks, block_pos)
-        elif choice == 6:
-          blocks.HardBlock(self.blocks, block_pos)
+        blocks.Block(self.blocks, block_pos)
