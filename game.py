@@ -19,7 +19,8 @@ class Game():
     self.balls = pygame.sprite.Group()
     self.powerups = pygame.sprite.Group()
     self.blocks = pygame.sprite.Group()
-    self.board = Board([20, 400])
+    self.board = Board([200, 400])
+    Ball(self.balls, (250, 250), pygame.math.Vector2(0, -1), config.RED)
     self.make_blocks()
 
 
@@ -27,7 +28,6 @@ class Game():
     self.running = running
     self.points = 0
 
-    Ball(self.balls, (250, 250), pygame.math.Vector2(0, -1), config.RED)
 
     dt = 0
 
@@ -40,6 +40,9 @@ class Game():
       self.draw()
 
       dt = self.clock.tick(config.FPS) / 1000
+
+      if not self.balls.sprites():
+        self.running = False
 
     return will_close
 
@@ -54,7 +57,7 @@ class Game():
       collision = ball.colliderect(self.board.rect)
       if collision:
         ball.direction = pygame.math.Vector2(
-          config.sub_tup(ball.pos, self.board.rect.center)
+          config.sub_tup(ball.pos, config.add_tup(self.board.rect.center, [0, 10]))
           ).normalize()
         if ball.direction.y > 0:
           ball.direction.y *= -1
@@ -77,9 +80,10 @@ class Game():
                 block.rect.center
                 )
               ).normalize()
-
-          block.kill()
-          self.points += 1
+          block.health -= 1
+          if block.health <= 0:
+            block.kill()
+            self.points += 1
 
     if not self.blocks:
       self.make_blocks()
@@ -115,4 +119,4 @@ class Game():
     for x in range(8):
       for y in range(3):
         block_pos = (x * 55 + 50, y * 30 + 50)
-        blocks.Block(self.blocks, block_pos)
+        blocks.HardBlock(self.blocks, block_pos)
