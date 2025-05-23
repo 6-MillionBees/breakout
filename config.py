@@ -13,12 +13,16 @@ HEIGHT = 500
 # Framerate
 FPS = 60
 
+# Fonts
+pygame.font.init()
+mainfont = pygame.font.Font("highway-encounter.ttf", 20)
 
 # Color Constants
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
 
 RED = (255, 0, 0)
+LIGHT_RED = (255, 200, 200)
 GREEN = (0, 255, 0)
 BLUE = (0, 0, 255)
 
@@ -77,12 +81,16 @@ class Text():
   """A simple Text() class that helps with centering, drawing, and storing data"""
   def __init__(self, words: str, font: pygame.font.Font, color: tuple, pos: tuple, antialias = False):
     self.text = font.render(words, antialias, color)
+    self.font = font
     self.color = color
     self.rect = self.text.get_rect(topleft=pos)
 
-  def center(self, center):
+  def center(self, center: tuple):
     self.rect.center = center
     return self
+
+  def set_text(self, text: str, color, antialias = False, background = None):
+    self.text = self.font.render(text, antialias, color, background)
 
   def draw(self, surface: pygame.Surface):
     surface.blit(self.text, self.rect)

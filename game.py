@@ -44,7 +44,7 @@ class Game():
       if not self.balls.sprites():
         self.running = False
 
-    return will_close
+    return self.points
 
 
   def update(self, dt):
@@ -74,13 +74,11 @@ class Game():
           elif collision == 2:
             ball.direction.reflect_ip(pygame.math.Vector2(0, 1))
           elif collision == 3:
-            ball.direction = pygame.math.Vector2(
-              config.sub_tup(
-                ball.pos,
-                block.rect.center
-                )
-              ).normalize()
+            temp_direct = config.sub_tup(ball.pos, block.rect.center)
+            ball.direction = pygame.math.Vector2(temp_direct[0], temp_direct[1]).normalize()
+
           block.health -= 1
+          block.hit()
           if block.health <= 0:
             block.kill()
             self.points += 1
@@ -119,4 +117,12 @@ class Game():
     for x in range(8):
       for y in range(3):
         block_pos = (x * 55 + 50, y * 30 + 50)
-        blocks.HardBlock(self.blocks, block_pos)
+        choice = randint(1, 10)
+        if choice < 7:
+          blocks.Block(self.blocks, block_pos)
+        elif choice == 7 or choice == 8:
+          blocks.HardBlock(self.blocks, block_pos)
+        elif choice == 9:
+          blocks.BallBlock(self.blocks, block_pos, self.balls)
+        elif choice == 10:
+          blocks.PowerUpBlock(self.blocks, block_pos, self.powerups)

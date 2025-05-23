@@ -25,7 +25,12 @@ class Main:
     self.running = True
 
     self.start_button = pygame.Rect((0, 0), (200, 75))
-    self.start_button.center = (config.WIDTH / 2, config.HEIGHT / 2)
+    self.start_button.center = (config.WIDTH / 2, config.HEIGHT / 2 + 75)
+
+    self.prev_score = 0
+
+    self.score_text = config.Text(f"prev score: {str(self.prev_score)}", config.mainfont, config.WHITE, (0, 0))
+    self.score_text.center((config.WIDTH / 2, 200))
 
     dt = 0
     # Main loop
@@ -39,6 +44,8 @@ class Main:
       self.screen.fill(config.BLACK)
 
       pygame.draw.rect(self.screen, config.WHITE, self.start_button)
+
+      self.score_text.draw(self.screen)
 
       # Updates the Display
       pygame.display.flip()
@@ -59,7 +66,8 @@ class Main:
         if self.start_button.collidepoint(event.pos):
 
           # This runs the actual game
-          self.running = Game(self.screen, self.clock).run(self.running)
+          self.prev_score = Game(self.screen, self.clock).run(self.running)
+          self.score_text.set_text(f"prev score: {str(self.prev_score)}", config.WHITE)
 
 
   # Exits the code
