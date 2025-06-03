@@ -28,7 +28,7 @@ BLUE = (0, 0, 255)
 
 
 # Events
-MAKE_POWERUP = pygame.event.custom_type()
+
 
 
 # Outline
@@ -91,6 +91,8 @@ class Text():
 
   def set_text(self, text: str, color, antialias = False, background = None):
     self.text = self.font.render(text, antialias, color, background)
+    self.rect = self.text.get_rect()
+    return self
 
   def draw(self, surface: pygame.Surface):
     surface.blit(self.text, self.rect)

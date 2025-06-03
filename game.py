@@ -117,12 +117,10 @@ class Game():
     for x in range(8):
       for y in range(3):
         block_pos = (x * 55 + 50, y * 30 + 50)
-        choice = randint(1, 10)
-        if choice < 7:
+        choice = randint(1, 5)
+        if choice < 4:
           blocks.Block(self.blocks, block_pos)
-        elif choice == 7 or choice == 8:
+        elif choice == 4:
           blocks.HardBlock(self.blocks, block_pos)
-        elif choice == 9:
+        elif choice == 5:
           blocks.BallBlock(self.blocks, block_pos, self.balls)
-        elif choice == 10:
-          blocks.PowerUpBlock(self.blocks, block_pos, self.powerups)

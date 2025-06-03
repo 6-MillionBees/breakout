@@ -29,7 +29,7 @@ class Main:
 
     self.prev_score = 0
 
-    self.score_text = config.Text(f"prev score: {str(self.prev_score)}", config.mainfont, config.WHITE, (0, 0))
+    self.score_text = config.Text(str(self.prev_score), config.mainfont, config.WHITE, (0, 0))
     self.score_text.center((config.WIDTH / 2, 200))
 
     dt = 0
@@ -67,7 +67,8 @@ class Main:
 
           # This runs the actual game
           self.prev_score = Game(self.screen, self.clock).run(self.running)
-          self.score_text.set_text(f"prev score: {str(self.prev_score)}", config.WHITE)
+          self.score_text.set_text(str(self.prev_score), config.WHITE)
+          self.score_text.center((config.WIDTH / 2, 200))
 
 
   # Exits the code
