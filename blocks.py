@@ -49,5 +49,36 @@ class BallBlock(Block):
     pygame.draw.circle(surface, config.BLACK, self.rect.center, 8)
 
   def kill(self):
-    Ball(self.ball_group, self.rect.center, config.rand_vector(), config.WHITE, 7, 450)
+    Ball(self.ball_group, self.rect.center, config.rand_vector(185, 355), config.WHITE, 7, 450)
+    super().kill()
+
+
+
+class PowerUpBlock(Block):
+  def __init__(self, groups, pos, power_group):
+    super().__init__(groups, pos)
+    self.power_group = power_group
+    self.sprite = pygame.Surface(self.rect.size)
+    self.sprite.fill(config.WHITE)
+
+    pygame.draw.rect(
+      self.sprite,
+      config.BLACK,
+      pygame.Rect(
+        config.sub_tup(config.sub_tup(self.rect.center, self.rect.topleft), (3, 8)), (6, 16))
+    )
+
+    pygame.draw.rect(
+      self.sprite,
+      config.BLACK,
+      pygame.Rect(
+        config.sub_tup(config.sub_tup(self.rect.center, self.rect.topleft), (8, 3)), (16, 6))
+    )
+
+  def draw(self, surface):
+    surface.blit(self.sprite, self.rect)
+
+
+  def kill(self):
+    pygame.event.post(config.MakePowerup("triple", self.rect.center))
     super().kill()

@@ -8,6 +8,7 @@ import blocks
 from random import randint
 from board import Board
 from balls import Ball
+from powerup import PowerUp
 
 
 class Game():
@@ -83,6 +84,13 @@ class Game():
             block.kill()
             self.points += 1
 
+    for powerup in self.powerups.sprites():
+      if powerup.rect.collidepoint(self.board):
+        if powerup.type == "triple":
+          for ball in self.balls.sprites():
+            Ball(self.balls, ball.pos, config.rand_vector(), ball.color, ball.radius, ball.speed)
+            Ball(self.balls, ball.pos, config.rand_vector(), ball.color, ball.radius, ball.speed)
+
     if not self.blocks:
       self.make_blocks()
 
@@ -99,6 +107,9 @@ class Game():
     for block in self.blocks.sprites():
       block.draw(self.screen)
 
+    for powerup in self.powerups.sprites():
+      powerup.draw(self.screen)
+
     pygame.display.flip()
 
 
@@ -108,7 +119,8 @@ class Game():
       if event.type == pygame.QUIT:
         self.running = False
         return False
-
+      if event.type == config.MAKEPOWERUP:
+        PowerUp(self.powerups, event.pos, event.power)
     return True
 
 
@@ -117,10 +129,12 @@ class Game():
     for x in range(8):
       for y in range(3):
         block_pos = (x * 55 + 50, y * 30 + 50)
-        choice = randint(1, 5)
+        choice = randint(1, 6)
         if choice < 4:
           blocks.Block(self.blocks, block_pos)
         elif choice == 4:
           blocks.HardBlock(self.blocks, block_pos)
         elif choice == 5:
           blocks.BallBlock(self.blocks, block_pos, self.balls)
+        elif choice == 6:
+          blocks.PowerUpBlock(self.blocks, block_pos, self.powerups)

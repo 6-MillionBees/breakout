@@ -29,6 +29,14 @@ BLUE = (0, 0, 255)
 
 # Events
 
+MAKEPOWERUP = pygame.event.custom_type()
+
+class MakePowerup:
+  def __init__(self, power, pos):
+    self.type = MAKEPOWERUP
+    self.pos = pos
+    self.power = power
+
 
 
 # Outline
