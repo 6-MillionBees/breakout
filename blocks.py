@@ -6,6 +6,7 @@ import pygame
 import config
 from random import randint
 from balls import Ball
+from powerup import PowerUp
 
 class Block(pygame.sprite.Sprite):
   """A simple Block"""
@@ -80,5 +81,5 @@ class PowerUpBlock(Block):
 
 
   def kill(self):
-    pygame.event.post(config.MakePowerup("triple", self.rect.center))
+    PowerUp(self.power_group, self.rect.center, "triple")
     super().kill()

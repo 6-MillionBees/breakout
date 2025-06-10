@@ -53,6 +53,8 @@ class Game():
 
     self.balls.update(dt)
 
+    self.powerups.update(dt)
+
     for ball in self.balls.sprites():
       ball: Ball
       collision = ball.colliderect(self.board.rect)
@@ -85,9 +87,12 @@ class Game():
             self.points += 1
 
     for powerup in self.powerups.sprites():
-      if powerup.rect.collidepoint(self.board):
+      if powerup.rect.colliderect(self.board):
         if powerup.type == "triple":
+          temp_balls = []
           for ball in self.balls.sprites():
+            temp_balls.append(ball)
+          for ball in temp_balls:
             Ball(self.balls, ball.pos, config.rand_vector(), ball.color, ball.radius, ball.speed)
             Ball(self.balls, ball.pos, config.rand_vector(), ball.color, ball.radius, ball.speed)
 
@@ -119,8 +124,6 @@ class Game():
       if event.type == pygame.QUIT:
         self.running = False
         return False
-      if event.type == config.MAKEPOWERUP:
-        PowerUp(self.powerups, event.pos, event.power)
     return True
 
 

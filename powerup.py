@@ -12,7 +12,8 @@ class PowerUp(pygame.sprite.Sprite):
     self.type = type
     self.rect = pygame.Rect((0, 0), (20, 20))
     self.rect.center = pos
-    self.sprite = pygame.Surface(20, 20)
+    self.sprite = pygame.Surface((20, 20))
+    self.sprite.set_colorkey(config.BLACK)
     pygame.draw.rect(self.sprite, config.GREEN, pygame.Rect((5, 0), (10, 20)))
     pygame.draw.rect(self.sprite, config.GREEN, pygame.Rect((0, 5), (20, 10)))
 
@@ -23,12 +24,12 @@ class PowerUp(pygame.sprite.Sprite):
 
 
   def move(self, dt):
-    self.pos = (self.pos[0], self.pos[1] + 20 * dt)
+    self.pos = (self.pos[0], self.pos[1] + 100 * dt)
     self.rect.center = self.pos
 
 
   def check_pos(self):
-    if self.pos >= config.HEIGHT + 20:
+    if self.pos[1] >= config.HEIGHT + 20:
       self.kill()
 
   def draw(self, surface):
