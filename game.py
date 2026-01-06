@@ -89,7 +89,7 @@ class Game():
     for powerup in self.powerups.sprites():
       if powerup.rect.colliderect(self.board):
         if powerup.type == "triple":
-          temp_balls = []
+          temp_balls: list[Ball] = []
           for ball in self.balls.sprites():
             temp_balls.append(ball)
           for ball in temp_balls:

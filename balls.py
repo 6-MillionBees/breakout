@@ -8,9 +8,9 @@ import config
 class Ball(pygame.sprite.Sprite):
   def __init__(self,
       groups,
-      pos: tuple,
+      pos: tuple[int, int],
       direction: pygame.math.Vector2,
-      color: tuple,
+      color: tuple[int, int, int],
       radius = 10,
       speed = 500
     ) -> None:
