@@ -95,6 +95,7 @@ class Game():
           for ball in temp_balls:
             Ball(self.balls, ball.pos, config.rand_vector(), ball.color, ball.radius, ball.speed)
             Ball(self.balls, ball.pos, config.rand_vector(), ball.color, ball.radius, ball.speed)
+        powerup.kill()
 
     if not self.blocks:
       self.make_blocks()
